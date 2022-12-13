@@ -96,6 +96,8 @@ window.addEventListener("load", function () {
       this.x = this.game.width;
       this.speedX = Math.random() * -1.5 - 0.5;
       this.markedForDeletion = false;
+      this.lives = 5;
+      this.score = this.lives;
     }
     update() {
       this.x += this.speedX;
@@ -104,6 +106,9 @@ window.addEventListener("load", function () {
     draw(context){
       context.fillStyle = 'red';
       context.fillRect(this.x, this.y, this.width, this.height);
+      context.fillStyle = 'black',
+      context.font = '20px Helvetica'
+      context.fillText(this.lives, this.x, this.y);
     }
   }
   class Angler1 extends Enemy {
@@ -124,16 +129,44 @@ window.addEventListener("load", function () {
       this.game = game;
       this.fontSize = 25;
       this.fontFamily = 'Helvetica';
-      this.color = 'yellow';
+      this.color = 'white';
     }
     draw(context){
-      // ammo counter
+      context.save();
       context.fillStyle = this.color;
-      for (let i = 0; i < this.game.ammo; i++)
+      context.shadowOffsetX = 2;
+      context.shadowOffsetY = 2;
+      context.shadowColor = 'black'
+      context.font = this.fontSize + 'px' + this.fontFamily;
+      // score keeper
+      context.fillText('Score: ' + this.game.score, 20, 40);
+      // ammo counter
+      for (let i = 0; i < this.game.ammo; i++){
       context.fillRect(20 + 5 * i, 50, 3, 20);
     }
+    // Timer
+    const formattedTime = (this.game.gameTime * 0.001).toFixed(1)
+    context.fillText('Timer: ' + formattedTime, 20, 100);
+    // Game over messages
+    if (this.game.gameOver){
+      context.textAlign = 'center';
+      let message1;
+      let message2;
+      if ( this.game.score > this.game.winningScore){
+        message1 = "You have won the game!!";
+        message2 = " Great Job!!!"
+      }else {
+        message1 = "You Lost!!";
+        message2 = " Try to win next time!!";
+      }
+      context.font = '50px' + this.fontFamily;
+      context.fillText(message1, this.game.width * 0.5, this.game.height * 0.5 -40);
+      context.font = '25px' + this.fontFamily;
+      context.fillText(message2, this.game.width * 0.5, this.game.height * 0.5 +40);
+    }
+    context.restore()
   }
-
+  }
   class Game {
     constructor(width, height) {
       this.width = width;
@@ -150,8 +183,14 @@ window.addEventListener("load", function () {
       this.ammoTimer = 0;
       this.ammoInterval = 500;
       this.gameOver = false;
+      this.score = 0;
+      this.winningScore = 10;
+      this.gameTime = 0;
+      this.timeLimit = 5000;
     }
     update(deltaTime) {
+      if (!this.gameOver) this.gameTime += deltaTime;
+      if (this.gameTime > this.timeLimit) this.gameOver = true;
       this.player.update();
       if (this.ammoTimer > this.ammoInterval){
         if (this.ammo < this.maxAmmo) this.ammo++;
@@ -161,6 +200,20 @@ window.addEventListener("load", function () {
       }
       this.enemies.forEach(enemy => {
         enemy.update();
+        if (this.checkCollision(this.player, enemy)){
+          enemy.markedForDeletion = true;
+        }
+        this.player.projectiles.forEach(projectile => {
+          if (this.checkCollision(projectile, enemy)){
+            enemy.lives--;
+            projectile.markedForDeletion = true;
+            if (enemy.lives <= 0){
+              enemy.markedForDeletion = true;
+             if (!this.gameOver) this.score += enemy.score;
+              if (this.score > this.winningScore) this.gameOver = true;
+            }
+          }
+        })
       });
       this.enemies = this.enemies.filter(enemy => !enemy.markedForDeletion);
       if (this.enemyTimer > this.enemyInterval && !this.gameOver){
@@ -180,6 +233,14 @@ window.addEventListener("load", function () {
     addEnemy(){
       this.enemies.push(new Angler1(this))
     }
+    checkCollision(rect1, rect2) {
+      return (
+        rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.height + rect1.y > rect2.y
+      )
+    }
   }
   const game = new Game(canvas.width, canvas.height);
   let lastTime = 0;
@@ -191,5 +252,5 @@ window.addEventListener("load", function () {
     game.draw(ctx);
     requestAnimationFrame(animate);
   }
-  animate(0);
+   animate(0);
 });

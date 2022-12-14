@@ -2,7 +2,7 @@ window.addEventListener("load", function () {
   // canvas setup
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
-  canvas.width = 1700;
+  canvas.width = 700;
   canvas.height = 500;
   class InputHandler {
     constructor(game) {
@@ -211,7 +211,7 @@ window.addEventListener("load", function () {
         this.height
       );
       if (this.game.debug) {
-        context.font = "20px Helvetica";
+         context.font = "20px Helvetica";
         context.fillText(this.lives, this.x, this.y);
       }
     }
@@ -305,7 +305,7 @@ window.addEventListener("load", function () {
       context.shadowOffsetX = 2;
       context.shadowOffsetY = 2;
       context.shadowColor = "black";
-      context.font = this.fontSize + "px" + this.fontFamily;
+      context.font = this.fontSize + "px " + this.fontFamily;
       // score keeper
       context.fillText("Score: " + this.game.score, 20, 40);
       // Timer
@@ -323,13 +323,13 @@ window.addEventListener("load", function () {
           message1 = "You Lost!!";
           message2 = " Try to win next time!!";
         }
-        context.font = "70px" + this.fontFamily;
+        context.font = "70px " + this.fontFamily;
         context.fillText(
           message1,
           this.game.width * 0.5,
           this.game.height * 0.5 - 20
         );
-        context.font = "25px" + this.fontFamily;
+        context.font = "25px " + this.fontFamily;
         context.fillText(
           message2,
           this.game.width * 0.5,
@@ -390,7 +390,7 @@ window.addEventListener("load", function () {
           for (let i = 0; i < 10; i++){
             this.particles.push(new Particle(this, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5));
         }
-          if ((enemy.type = "lucky")) this.player.enterPowerUp();
+          if ((enemy.type === "lucky")) this.player.enterPowerUp();
           else this.score--;
         }
         this.player.projectiles.forEach((projectile) => {

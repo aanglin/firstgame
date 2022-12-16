@@ -19,6 +19,7 @@ h1 {
  padding-left: 50rem; 
   color: white;
   font-family: 'Bangers', cursive;
+  letter-spacing: 1px;
 }
 h2 {
   position: absolute;
@@ -28,6 +29,7 @@ h2 {
  padding-left: 50rem; 
   color: white;
   font-family: 'Bangers', cursive;
+  letter-spacing: 1px;
 }
 h3 {
   position: absolute;
@@ -37,6 +39,7 @@ h3 {
  padding-left: 50rem; 
   color: white;
   font-family: 'Bangers', cursive;
+  letter-spacing: 1px;
 }
 #start {
   position: absolute;

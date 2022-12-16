@@ -681,6 +681,8 @@ class Razorfin extends Enemy {
     }
   }
   const game = new Game(canvas.width, canvas.height);
+  const start = document.getElementById('startGame');
+  const reload = document.getElementById('reloadGame');
   let lastTime = 0;
   function animate(timeStamp) {
     const deltaTime = timeStamp - lastTime;
@@ -690,5 +692,12 @@ class Razorfin extends Enemy {
     game.update(deltaTime);
     requestAnimationFrame(animate);
   }
-  animate(0);
+  function beginGame() {
+  start.onclick = animate(0);
+}
+function reloadGame() {
+  location.reload();
+}
+start.onclick = beginGame;
+reload.onclick = reloadGame;
 });

@@ -3,7 +3,65 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+html {
+  background: black;;
+}
+#container {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+h1 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+ padding-left: 50rem; 
+  color: white;
+  font-family: 'Bangers', cursive;
+}
+h2 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  padding-top: 5rem;
+ padding-left: 50rem; 
+  color: white;
+  font-family: 'Bangers', cursive;
+}
+h3 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  padding-top: 10rem;
+ padding-left: 50rem; 
+  color: white;
+  font-family: 'Bangers', cursive;
+}
+#start {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 22%;
+  left: 50%;
+}
+#startGame {
+  font-family: 'Bangers', cursive;
+  width: 5rem;
+  height: 1.5rem;
+  font-size: large;
+  letter-spacing: 1px;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+#reloadGame {
+  font-family: 'Bangers', cursive;
+  width: 5rem;
+  height: 1.5rem;
+  font-size: large;
+  letter-spacing: 1px;
+  border-radius: 1rem;
+  cursor: pointer;
+}
 #canvas1 {
     border: 5px solid black;
     position: absolute;
